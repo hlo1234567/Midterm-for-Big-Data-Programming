@@ -1,36 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ## Input text file
-
-# In[25]:
-
-
-data = sc.textFile("Encrypted-3.txt")
+# Input text file
+data = sc.textFile("ANYFILE.txt")
 
 
-# ## Split characters
-
-# In[26]:
-
-
+#Split characters
 chars = data.flatMap(lambda chars: list(chars))
 
 
-# ## Count characters
-
-# In[27]:
-
-
+#Count characters
 chars_without_space = chars.filter(lambda x: x.isalnum())
 charsCount = chars_without_space.map(lambda word: (word, 1)).reduceByKey(lambda x,y: x+y)
 
 
-# ## Find the shifting key
-
-# In[28]:
-
-
+# Find the shifting key
 index_of_most_common_letter = 4
 
 charsCountSorted = charsCount.sortBy(lambda a: a[1], ascending=False)
@@ -54,11 +38,7 @@ common_Letter_in_cipher_Index = ord(common_letter_in_cipher) - 65
 key = common_Letter_in_cipher_Index - index_of_most_common_letter
 
 
-# ## Decrypt the txt file
-
-# In[29]:
-
-
+# Decrypt the txt file
 def Decrypt(message, key):
     
     translated = ""
@@ -79,18 +59,13 @@ def Decrypt(message, key):
     return translated
 
 decryptData = Decrypt(chars, key)
-print(decryptData)
 
 
-# In[30]:
-
-
+# Testing if is Enlgish Language
 from langdetect import detect_langs
 
 detect_langs(decryptData)
 
-
-# In[ ]:
 
 
 
